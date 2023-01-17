@@ -1,10 +1,11 @@
-const {User} = require('../models/User')
+const {User} = require('../models')
 
 module.exports= { getUser(req,res){
     User.find()
+ 
     .select('-__v')
     .populate({
-        path:thoughts,
+        path:'thoughts',
         v:'-__v'
     })
     .populate({
@@ -22,7 +23,7 @@ module.exports= { getUser(req,res){
 },
 
 getUserById(req,res){
-    User.findOne({_id:req.params.userId})
+    User.findOne({_id:req.params.id})
     .select('-__v')
     .populate({
         path:'thoughts',
@@ -54,7 +55,7 @@ createUser(req,res){
 },
 
 updateUser(req,res){
-    User.findOneAndUpdate({_id:req.params.id},body)
+    User.findOneAndUpdate({_id:req.params.id},req.body)
     .then(userUpdate=>{
         if(!userUpdate){
             res.status(404).json({message:"Invalid Id"})
@@ -79,7 +80,7 @@ delUser(req,res){
 
 addFriend(req,res){
     User.findOneAndUpdate({_id:req.params.id},
-        {$push:{friends:req.params.friendsId}})
+        {$push:{friends:req.params.friendId}})
         .then(friendUpdate=>{
             if(!friendUpdate){
                 res.status(404).json({message:"Invalid id"})
@@ -92,7 +93,7 @@ addFriend(req,res){
 
 removeFriend(req,res){
     User.findOneAndUpdate({_id:req.params.id},
-        {$pull:{friends:req.params.friendsId}})
+        {$pull:{friends:req.params.friendId}})
         .then(friendData=>{
             if(!friendData){
                 res.status(404).json({message:"Invalid id"})
