@@ -9,6 +9,7 @@ module.exports={
         })
         .catch(err=>{
             res.status(500).json(err);
+            console.log(err)
         })
     },
 
@@ -75,7 +76,7 @@ module.exports={
 
     deleteReaction(req,res){
         Thought.findOneAndUpdate({_id:req.params.id},
-            {$pull:{reactions:req.params.reactionId}})
+            {$pull:{reactions:{reactionId:req.params.reactionId}}})
             .then(delReaction=>{
                 if(!delReaction){
                     res.status(404).json({message:"Invalid Id"})

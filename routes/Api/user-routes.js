@@ -18,7 +18,7 @@ const{getUser,
     .delete(delUser)
 
     router.route('/:id/friends/:friendId')
-    .put(addFriend)
+    .post(addFriend)
     .delete(removeFriend);
 
     module.exports= router
